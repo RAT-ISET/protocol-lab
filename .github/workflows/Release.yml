@@ -1,0 +1,150 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*"
+      - "test-*"
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Configure CMake
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=Release
+          -DCPACK_WIX_UPGRADE_GUID=${{ vars.PACKAGE_GUID }}
+          -DPROJECT_FULL_VERSION="${{ github.ref_name }}"
+
+      - name: Build
+        run: cmake --build build --config Release --target install
+
+      - name: Install the Tools
+        uses: RAT-ISET/release-action/pack/tools@main
+
+      - name: Package
+        working-directory: build
+        run: cpack -C Release
+
+      - name: EXPack
+        uses: RAT-ISET/release-action/pack/expack@main
+        with:
+          code_sign_key: ${{ secrets.CODE_SIGN_KEY }}
+          code_sign_crt: ${{ secrets.CODE_SIGN_CRT }}
+          pass: ${{ secrets.PASS }}
+          gpg_key: ${{ secrets.GPG_KEY }}
+          gpg_key_id: ${{ secrets.GPG_KEY_ID }}
+          out_path: ${{ github.workspace }}
+          intermediate_crt: ${{ secrets.INTERMEDIATE_CRT }}
+
+      - name: Info Output
+        run: find out/dist -type f
+        shell: bash
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-${{ runner.os }}
+          path: out/dist/*
+          compression-level: '0'
+
+  upload:
+    needs: release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: artifacts
+
+      - name: Flattening
+        run: |
+          mkdir dist
+          find artifacts -type f -exec mv -t dist {} +
+
+      - name: Detect Pre-Release
+        id: detect
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          if [[ "$TAG" =~ -(alpha|beta|rc)(\.|$) ]]; then
+            PRERELEASE=true
+          else
+            PRERELEASE=false
+          fi
+          echo "PRERELEASE=$PRERELEASE" >> "$GITHUB_ENV"
+          echo "prerelease=$PRERELEASE" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          args=()
+          if [[ "$PRERELEASE" == "true" ]]; then
+            args+=(--prerelease)
+          fi
+          gh release create "$GITHUB_REF_NAME" \
+            --generate-notes \
+            "${args[@]}" \
+            dist/*
+
+      - name: Generate GitHub App Token
+        if: steps.detect.outputs.prerelease == 'false'
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.ECLIPTIC_ID }}
+          private-key: ${{ secrets.ECLIPTIC_KEY }}
+          owner: RAT-ISET
+          repositories: repos
+
+      - name: Create Repos Directories
+        if: steps.detect.outputs.prerelease == 'false'
+        run: mkdir -p workspace
+
+      - name: Prepare to Push at Repos
+        if: steps.detect.outputs.prerelease == 'false'
+        working-directory: workspace
+        run: |
+          sudo apt install -y tree
+          git clone https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/${{ github.repository_owner }}/repos.git
+          cd repos
+          BRANCH="upload/$(git rev-parse --short HEAD)-$(date +%s)"
+          echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
+          git switch -c "$BRANCH"
+          mkdir -p incoming/{rpm/x86_64/${{ github.event.repository.name }},arch/x86_64/${{ github.event.repository.name }},deb/x86_64/pool/main/${{ github.event.repository.name }}}
+
+      - name: Push to Repos
+        if: steps.detect.outputs.prerelease == 'false'
+        working-directory: workspace/repos/incoming
+        run: |
+          tree
+          cp -a ${{ github.workspace }}/dist/*.rpm ./rpm/x86_64/${{ github.event.repository.name }}/
+          cp -a ${{ github.workspace }}/dist/*.pkg.tar.zst ./arch/x86_64/${{ github.event.repository.name }}/
+          cp -a ${{ github.workspace }}/dist/*.deb ./deb/x86_64/pool/main/${{ github.event.repository.name }}/
+          echo "${{ github.event.repository.name }}" >> software_name
+          echo "/software/${{ github.event.repository.name }}/* https://github.com/${GITHUB_REPOSITORY}/releases/download/${GITHUB_REF_NAME}/:splat 302" >> redirect_line.txt
+          git config --global user.name "Ecliptic ISET ( Bot )"
+          git config --global user.email "ecliptic@ratiset.org"
+          git add .
+          git commit -m "upload(${{ github.event.repository.name }}): ${{ github.ref_name }}"
+          git push origin $BRANCH

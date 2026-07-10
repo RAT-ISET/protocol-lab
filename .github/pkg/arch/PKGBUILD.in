@@ -1,0 +1,11 @@
+pkgname=@PROJECT_NAME@
+pkgver=@PROJECT_VERSION@
+pkgrel=@PROJECT_RELEASE@
+arch=('x86_64')
+
+pkgdesc="@PROJECT_DESCRIPTION@"
+license=('MIT')
+
+package() {
+    cp -a "$startdir/install/." "$pkgdir/"
+}
