@@ -35,7 +35,20 @@ int runGui()
     glfwGetWindowContentScale(window, &scale_x, &scale_y);
     const float scale = scale_x * 1.5f;
     io.FontGlobalScale = scale;
-    ImGui::GetStyle().ScaleAllSizes(scale);
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(scale);
+
+    style.Colors[ImGuiCol_DockingPreview] =
+        ImVec4(0.5f,0.5f,0.5f,0.7f);
+
+    style.Colors[ImGuiCol_Header] =
+        ImVec4(0.35f,0.35f,0.35f,1);
+
+    style.Colors[ImGuiCol_HeaderHovered] =
+        ImVec4(0.45f,0.45f,0.45f,1);
+
+    style.Colors[ImGuiCol_HeaderActive] =
+        ImVec4(0.55f,0.55f,0.55f,1);
 
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330");
