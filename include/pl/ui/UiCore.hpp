@@ -3,12 +3,9 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /src/Main.cpp
-// Main of ProtocolLab.
+// Path /include/pl//ui/UiCore.hpp
+// Header file of the ui core for project.
 
-#include <pl/ui/UiCore.hpp>
+#pragma once
 
-int main(const int argc, char* argv[])
-{
-    return runGui();
-}
+int runGui();

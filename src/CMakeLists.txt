@@ -1,7 +1,7 @@
 add_executable(ProtocolLab Main.cpp)
 
 target_include_directories(ProtocolLab PRIVATE ${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(ProtocolLab PRIVATE ProtocolLabDeps)
+target_link_libraries(ProtocolLab PRIVATE ProtocolLabDeps ProtocolLabUi)
 
 include(GNUInstallDirs)
 
@@ -10,3 +10,4 @@ install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION share/doc/${PROJECT_NAME
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION share/licenses/${PROJECT_NAME})
 
 add_subdirectory(core)
+add_subdirectory(ui)
