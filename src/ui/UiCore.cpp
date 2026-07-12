@@ -9,6 +9,8 @@
 #include <pl/ui/UiCore.hpp>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 int runGui()
 {
@@ -25,10 +27,23 @@ int runGui()
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
 
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+
+        ImGui::NewFrame();
+        ImGui::Begin("Hello, world!");
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         glfwSwapBuffers(window);
     }
