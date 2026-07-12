@@ -3,16 +3,14 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/inter/ISignal.hpp
-// Interface of signal.
+// Path /include/pl/inter/IModule.hpp
+// Interface of module.
 
 #pragma once
 
-#include <pl/core/SignalData.hpp>
-
-class IGetSignal
+class IModule
 {
 public:
-    virtual ~IGetSignal() = default;
-    virtual SignalData getValue(double time) = 0;
+    virtual ~IModule() = default;
+    virtual void init();
 };

@@ -3,7 +3,7 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/inter/ICalculation.cpp
+// Path /include/pl/inter/ICalculation.hpp
 // Interface of calculate process.
 
 #pragma once
@@ -19,12 +19,13 @@ public:
     virtual void run();
 };
 
-template<class Out, class In>
-class ICalculation : ICalculationBase
+template<class Out, class In, size_t InputCount>
+class ICalculation : public ICalculationBase
 {
 public:
     ~ICalculation() override = default;
-    virtual void addTask(In ins...);
-    virtual Out getResult(size_t index);
-    virtual vector<Out> getResults();
+    virtual size_t addTask(const array<In, InputCount>& inputs) = 0;
+    virtual Out getResult(size_t index) = 0;
+    virtual vector<Out>& getResults() = 0;
+    virtual void clear() = 0;
 };

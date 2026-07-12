@@ -22,4 +22,4 @@ public:
     void registerCalculation(ICalculationBase* calculation);
 };
 
-inline auto calculator = Calculator();
+inline auto CALCULATOR = Calculator();

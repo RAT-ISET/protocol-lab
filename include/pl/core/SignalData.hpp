@@ -16,5 +16,13 @@ struct SignalData
     double Q;
     explicit SignalData(double value);
     explicit SignalData(double i_input, double q_input);
-    SignalData operator*(const SignalData& value) const;
+    inline SignalData operator*(const SignalData& value) const;
+};
+
+struct SignalDataBuffer
+{
+    vector<double> Is;
+    vector<double> Qs;
+    explicit SignalDataBuffer(const vector<SignalData>& signal_datas);
+    inline vector<SignalData> operator*(const SignalDataBuffer& value) const;
 };
