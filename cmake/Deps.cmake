@@ -28,5 +28,7 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 target_link_libraries(imgui PUBLIC glfw)
 
+find_package(OpenGL REQUIRED)
+
 add_library(ProtocolLabDeps INTERFACE)
 target_link_libraries(ProtocolLabDeps INTERFACE imgui glfw)
