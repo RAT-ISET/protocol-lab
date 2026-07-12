@@ -16,14 +16,10 @@ using namespace std;
 
 class BaseWaveStatus
 {
-    double phase_;
-    double value_sin_{};
-    double value_cos_{};
-    const double omega_sin_;
-    const double omega_cos_;
+    SignalData value_;
+    const SignalData omega_;
 public:
-    static BaseWaveStatus buildBaseWaveStatus(double phase, double omega);
-    BaseWaveStatus(double phase, double omega_sin, double omega_cos);
+    BaseWaveStatus(double phase, double omega);
     void step();
     void step(size_t step);
     void calibrate();

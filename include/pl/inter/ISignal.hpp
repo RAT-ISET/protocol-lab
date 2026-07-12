@@ -8,11 +8,7 @@
 
 #pragma once
 
-struct SignalData
-{
-    double I;
-    double Q;
-};
+#include <pl/core/SignalData.hpp>
 
 class IGetSignal
 {
