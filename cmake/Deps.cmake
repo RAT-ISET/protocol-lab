@@ -14,7 +14,6 @@ FetchContent_Declare(
         GIT_TAG v1.92.8-docking
         GIT_SHALLOW TRUE
 )
-
 FetchContent_MakeAvailable(imgui)
 set(imgui_SOURCE_DIR ${CMAKE_BINARY_DIR}/_deps/imgui-src)
 add_library(imgui STATIC
@@ -28,7 +27,15 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR})
 target_link_libraries(imgui PUBLIC glfw)
 
+FetchContent_Declare(
+        tomlplusplus
+        GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+        GIT_TAG v3.4.0
+        GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(tomlplusplus)
+
 find_package(OpenGL REQUIRED)
 
 add_library(ProtocolLabDeps INTERFACE)
-target_link_libraries(ProtocolLabDeps INTERFACE imgui glfw)
+target_link_libraries(ProtocolLabDeps INTERFACE imgui glfw tomlplusplus)
