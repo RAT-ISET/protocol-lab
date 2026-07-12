@@ -8,3 +8,5 @@ include(GNUInstallDirs)
 install(TARGETS ProtocolLab RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${CMAKE_SOURCE_DIR}/README.md DESTINATION share/doc/${PROJECT_NAME})
 install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION share/licenses/${PROJECT_NAME})
+
+add_subdirectory(core)
