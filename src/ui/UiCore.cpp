@@ -76,7 +76,13 @@ int runGui()
         }
 
         ImGui::DockSpaceOverViewport();
-        ImGui::Begin("Hello, world!");
+        ImGui::Begin("Project");
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+        ImGui::Begin("Viewport");
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+        ImGui::Begin("Properties");
         ImGui::Text("ISET Protocol Lab");
         ImGui::End();
 
