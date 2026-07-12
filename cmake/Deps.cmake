@@ -38,4 +38,4 @@ FetchContent_MakeAvailable(tomlplusplus)
 find_package(OpenGL REQUIRED)
 
 add_library(ProtocolLabDeps INTERFACE)
-target_link_libraries(ProtocolLabDeps INTERFACE imgui glfw tomlplusplus)
+target_link_libraries(ProtocolLabDeps INTERFACE imgui glfw)
