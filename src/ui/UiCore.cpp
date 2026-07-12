@@ -42,6 +42,19 @@ int runGui()
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
+        if (ImGui::BeginMainMenuBar())
+        {
+            if (ImGui::BeginMenu("File"))
+            {
+                ImGui::MenuItem("New");
+                ImGui::MenuItem("Open");
+                ImGui::MenuItem("Save");
+                ImGui::MenuItem("Close");
+                ImGui::EndMenu();
+            }
+            ImGui::EndMainMenuBar();
+        }
+
         ImGui::DockSpaceOverViewport();
         ImGui::Begin("Hello, world!");
         ImGui::Text("ISET Protocol Lab");
