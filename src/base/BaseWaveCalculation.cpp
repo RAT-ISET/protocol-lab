@@ -9,6 +9,7 @@
 #include <pl/base/BaseWaveCalculation.hpp>
 #include <pl/core/SignalData.hpp>
 #include <vector>
+#include <bits/ios_base.h>
 
 void BaseWaveCalculation::run()
 {
@@ -39,16 +40,36 @@ void BaseWaveCalculation::clear()
     outputs_.clear();
 }
 
-void BaseWaveMultiCalculationData::calculate()
+void BaseWaveMultiCalculationTask::addEntry(BaseWaveStatus& input_value)
 {
-    vector<SignalData> caches = inputs_[0];
-    for (size_t count = 0; count < step_count_; count++)
+    inputs_.push_back(&input_value);
+}
+
+void BaseWaveMultiCalculationTask::calculate()
+{
+    for (BaseWaveStatus* input : inputs_)
     {
-        for (size_t index = 0; index < caches.size(); index++)
+        input->calculate();
     }
 }
 
 void BaseWaveMultiCalculation::run()
 {
+    for (BaseWaveMultiCalculationTask task : tasks_) task.calculate();
+}
 
+size_t BaseWaveMultiCalculation::addMultiTask(const BaseWaveMultiCalculationTask task)
+{
+    tasks_.push_back(task);
+    return tasks_.size() - 1;
+}
+
+vector<SignalData>& BaseWaveMultiCalculation::getMultiResult(size_t index)
+{
+    return *tasks_[index].outputs_;
+}
+
+void BaseWaveMultiCalculation::clear()
+{
+    tasks_.clear();
 }

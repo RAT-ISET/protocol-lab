@@ -45,12 +45,9 @@ void BaseWaveCalculation::clear()
 
 BaseWaveStatus::BaseWaveStatus
 (const double phase, const double omega)
-    : value_(phase)
-    , omega_(omega) {}
-
-void BaseWaveStatus::step() const
+    : omega_(omega)
 {
-    base_wave_calculation.addTask(array{value_, omega_});
+    values_.pushBack(SignalData(phase));
 }
 
 BaseWave::BaseWave(const double frequency, const double amplitude, const double phase)

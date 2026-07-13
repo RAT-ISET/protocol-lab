@@ -8,24 +8,18 @@
 
 #pragma once
 
-#include <cmath>
-#include <cstdlib>
 #include <vector>
-#include <array>
 #include <pl/inter/ISignal.hpp>
 #include <pl/inter/IModule.hpp>
-#include <pl/inter/ICalculation.hpp>
 
 using namespace std;
 
-class BaseWaveStatus
+struct BaseWaveStatus
 {
-    SignalData value_;
+    SignalDataBuffer values_{};
     const SignalData omega_;
-public:
     BaseWaveStatus(double phase, double omega);
-    void step() const;
-    void step(size_t step);
+    inline void iteration();
     void calibrate();
 };
 

@@ -13,6 +13,7 @@
 #include <array>
 #include <pl/inter/ISignal.hpp>
 #include <pl/inter/ICalculation.hpp>
+#include <pl/base/BaseWave.hpp>
 
 using namespace std;
 
@@ -30,21 +31,21 @@ public:
 
 inline auto base_wave_calculation = BaseWaveCalculation();
 
-struct BaseWaveMultiCalculationData
+struct BaseWaveMultiCalculationTask
 {
-    array<vector<SignalData>, 2> inputs_;
-    vector<SignalData> outputs_;
+    vector<BaseWaveStatus*> inputs_;
     size_t step_count_;
-    explicit BaseWaveMultiCalculationData(const size_t step_count) : step_count_(step_count) {}
+    explicit BaseWaveMultiCalculationTask(const size_t step_count) : step_count_(step_count) {}
+    void addEntry(BaseWaveStatus& input_value);
     void calculate();
 };
 
-class BaseWaveMultiCalculation : public IMultiCalculation<SignalData, BaseWaveMultiCalculationData>
+class BaseWaveMultiCalculation : public IMultiCalculation<SignalData, BaseWaveMultiCalculationTask>
 {
-    vector<BaseWaveMultiCalculationData> tasks_;
+    vector<BaseWaveMultiCalculationTask> tasks_;
 public:
     void run() override;
-    size_t addMultiTask(BaseWaveMultiCalculationData task) override;
+    size_t addMultiTask(BaseWaveMultiCalculationTask task) override;
     vector<SignalData>& getMultiResult(size_t index) override;
     void clear() override;
 };

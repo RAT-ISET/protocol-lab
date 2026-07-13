@@ -40,7 +40,19 @@ SignalDataBuffer::SignalDataBuffer(const vector<SignalData>& signal_data)
     }
 }
 
-vector<SignalData> SignalDataBuffer::operator*(const SignalDataBuffer& value) const
+void SignalDataBuffer::pushBack(const SignalData& value)
+{
+    Is.push_back(value.I);
+    Qs.push_back(value.Q);
+}
+
+void SignalDataBuffer::update(const size_t index, const SignalData& data)
+{
+    Is[index] = data.I;
+    Qs[index] = data.Q;
+}
+
+vector<SignalData> SignalDataBuffer::multiData(const SignalDataBuffer& value) const
 {
     vector<SignalData> result;
     result.reserve(Is.size());
@@ -52,16 +64,24 @@ vector<SignalData> SignalDataBuffer::operator*(const SignalDataBuffer& value) co
     return result;
 }
 
-void SignalDataBuffer::multiMul(const SignalDataBuffer& value, const size_t count)
+void SignalDataBuffer::operator*=(const SignalDataBuffer& value)
 {
-    for (size_t i = 0; i < count; i++)
-    {
-        for (size_t j = 1; j < Is.size(); j++)
-        {
-            const double cache_i = Is[i] * value.Is[i] - Qs[i] * value.Qs[i];
-            const double cache_q = Is[i] * value.Qs[i] + Qs[i] * value.Is[i];
-            Is[i] = cache_i;
-            Qs[i] = cache_q;
-        }
-    }
+    for (size_t i = 0; i < Is.size(); i++)
+        update(i, SignalData(
+        Is[i] * value.Is[i] - Qs[i] * value.Qs[i],
+        Is[i] * value.Qs[i] + Qs[i] * value.Is[i]
+        ));
+}
+
+SignalDataBuffer SignalDataBuffer::operator*(const SignalDataBuffer& value) const
+{
+    SignalDataBuffer result;
+    result.Is.reserve(Is.size());
+    result.Qs.reserve(Qs.size());
+    for (size_t i = 0; i < Is.size(); i++)
+        result.update(i, SignalData(
+        Is[i] * value.Is[i] - Qs[i] * value.Qs[i],
+        Is[i] * value.Qs[i] + Qs[i] * value.Is[i]
+        ));
+    return result;
 }

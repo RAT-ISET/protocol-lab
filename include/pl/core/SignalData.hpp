@@ -25,7 +25,11 @@ struct SignalDataBuffer
 {
     vector<double> Is;
     vector<double> Qs;
+    SignalDataBuffer() = default;
     explicit SignalDataBuffer(const vector<SignalData>& signal_data);
-    inline vector<SignalData> operator*(const SignalDataBuffer& value) const;
-    inline void multiMul(const SignalDataBuffer& value, size_t count);
+    inline void pushBack(const SignalData& value);
+    inline void update(size_t index, const SignalData& data);
+    [[nodiscard]] inline vector<SignalData> multiData(const SignalDataBuffer& value) const;
+    inline void operator*=(const SignalDataBuffer& value);
+    inline SignalDataBuffer operator*(const SignalDataBuffer& value) const;
 };
