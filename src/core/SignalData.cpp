@@ -29,11 +29,11 @@ SignalData SignalData::operator*(const SignalData& value) const
     return SignalData(I * value.I - Q * value.Q, I * value.Q + Q * value.I);
 }
 
-SignalDataBuffer::SignalDataBuffer(const vector<SignalData>& signal_datas)
+SignalDataBuffer::SignalDataBuffer(const vector<SignalData>& signal_data)
 {
-    Is.reserve(signal_datas.size());
-    Qs.reserve(signal_datas.size());
-    for (const SignalData& item : signal_datas)
+    Is.reserve(signal_data.size());
+    Qs.reserve(signal_data.size());
+    for (const SignalData& item : signal_data)
     {
         Is.push_back(item.I);
         Qs.push_back(item.Q);
@@ -50,4 +50,18 @@ vector<SignalData> SignalDataBuffer::operator*(const SignalDataBuffer& value) co
         Is[i] * value.Qs[i] + Qs[i] * value.Is[i]
         );
     return result;
+}
+
+void SignalDataBuffer::multiMul(const SignalDataBuffer& value, const size_t count)
+{
+    for (size_t i = 0; i < count; i++)
+    {
+        for (size_t j = 1; j < Is.size(); j++)
+        {
+            const double cache_i = Is[i] * value.Is[i] - Qs[i] * value.Qs[i];
+            const double cache_q = Is[i] * value.Qs[i] + Qs[i] * value.Is[i];
+            Is[i] = cache_i;
+            Qs[i] = cache_q;
+        }
+    }
 }

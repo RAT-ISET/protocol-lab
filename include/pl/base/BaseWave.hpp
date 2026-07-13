@@ -3,7 +3,7 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/core/BaseWave.hpp
+// Path /include/pl/base/BaseWave.hpp
 // Header file of the base RF wave class.
 
 #pragma once
@@ -17,20 +17,6 @@
 #include <pl/inter/ICalculation.hpp>
 
 using namespace std;
-
-class BaseWaveCalculation : public ICalculation<SignalData, SignalData, 2>
-{
-    array<vector<SignalData>, 2> inputs_;
-    vector<SignalData> outputs_;
-public:
-    void run() override;
-    size_t addTask(const array<SignalData, 2>& inputs) override;
-    SignalData getResult(size_t index) override;
-    vector<SignalData>& getResults() override;
-    void clear() override;
-};
-
-inline auto base_wave_calculation = BaseWaveCalculation();
 
 class BaseWaveStatus
 {

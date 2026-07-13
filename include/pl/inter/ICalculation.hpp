@@ -29,3 +29,13 @@ public:
     virtual vector<Out>& getResults() = 0;
     virtual void clear() = 0;
 };
+
+template<class Out, class TaskType>
+class IMultiCalculation : public ICalculationBase
+{
+public:
+    ~IMultiCalculation() override = default;
+    virtual size_t addMultiTask(TaskType task) = 0;
+    virtual vector<Out>& getMultiResult(size_t index) = 0;
+    virtual void clear() = 0;
+};

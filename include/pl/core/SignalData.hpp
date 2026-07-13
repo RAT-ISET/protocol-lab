@@ -10,6 +10,8 @@
 
 using namespace std;
 
+#include <vector>
+
 struct SignalData
 {
     double I;
@@ -23,6 +25,7 @@ struct SignalDataBuffer
 {
     vector<double> Is;
     vector<double> Qs;
-    explicit SignalDataBuffer(const vector<SignalData>& signal_datas);
+    explicit SignalDataBuffer(const vector<SignalData>& signal_data);
     inline vector<SignalData> operator*(const SignalDataBuffer& value) const;
+    inline void multiMul(const SignalDataBuffer& value, size_t count);
 };

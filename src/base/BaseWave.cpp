@@ -3,10 +3,11 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /src/core/BaseWave.cpp
+// Path /src/base/BaseWave.cpp
 // Base RF wave class.
 
-#include <pl/core/BaseWave.hpp>
+#include <pl/base/BaseWave.hpp>
+#include <pl/base/BaseWaveCalculation.hpp>
 #include <pl/core/SignalData.hpp>
 #include <pl/inter/ICalculation.hpp>
 #include <pl/core/Calculator.hpp>
