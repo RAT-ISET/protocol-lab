@@ -1,0 +1,95 @@
+@startuml mainframe
+
+package front {
+    package inter {
+        interface IModule {
+            + void init()
+        }
+        interface IGetSignal {
+            + getValue(double time) -> SignalData&
+        }
+        IModule *-- IGetSignal
+
+        interface ICalculationBase {
+            + void run()
+        }
+
+        interface ICalculation<class TaskType> {
+            + addTask(TaskType task)
+            + clear()
+        }
+        ICalculation ..|> ICalculationBase
+        IModule *-- ICalculation
+
+        interface ICalculationTask<class In> {
+            + addEntry(In& in)
+            + run()
+        }
+        ICalculation *-- ICalculationTask
+    }
+
+    package base {
+        class BaseWave {
+            - double frequency_
+            - double amplitude_
+            - BaseWaveStatus status_
+            + override init()
+            + getValue() -> SignalData
+        }
+        BaseWave <|.. IModule
+        BaseWave <|.. IGetSignal
+
+        class BaseWaveStatus {
+            - SignalDataBuffer values_
+            - SignalData omega_
+            + static update(vector<Self*> source, vector<SignalDataBuffer> data)
+            + getLocation() -> size_t
+            + iteration()
+            + calibrate()
+        }
+        BaseWave *-- BaseWaveStatus
+
+        class BaseWaveCalculation<BaseWaveCalculationTask> {
+            - vector<BaseWaveCalculationTask> tasks_
+            + override run()
+            + override addTask(BaseWaveCalculationTask task)
+            + override clear()
+        }
+        BaseWave *-- BaseWaveCalculation
+        BaseWaveCalculation ..|> ICalculation
+
+        class BaseWaveCalculationTask<BaseWaveStatus> {
+            - vector<BaseWaveStatus*> source_
+            - array<SignalDataBuffer, 2> data_
+            + override addEntry(BaseWaveStatus& in)
+            + override run()
+            + step()
+        }
+        BaseWaveCalculationTask ..|> ICalculationTask 
+        BaseWaveCalculation *-- BaseWaveCalculationTask
+        BaseWaveCalculationTask -- BaseWaveStatus
+    }
+
+    package core {
+        class Calculator {
+            - vector<ICalculationBase*> calculations_
+            + registerCalculater(ICalculationBase* item)
+            + run()
+        }
+
+        class SignalData {
+            - double I
+            - double Q
+        }
+
+        class SignalDataBuffer {
+            - vector<double> Is
+            - vector<double> Qs
+            + replace(size_t index, SignalData& data)
+            + pushBack(SignalData& data)
+        }
+        SignalDataBuffer -- SignalData
+    }
+}
+
+@enduml
