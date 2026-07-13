@@ -1,10 +1,17 @@
 @startuml mainframe
 
 package front {
+    class ui {
+        + runUi()
+    }
+}
+
+package back {
     package inter {
         interface IModule {
             + void init()
         }
+
         interface IGetSignal {
             + getValue(double time) -> SignalData&
         }
@@ -61,6 +68,7 @@ package front {
         class BaseWaveCalculationTask<BaseWaveStatus> {
             - vector<BaseWaveStatus*> source_
             - array<SignalDataBuffer, 2> data_
+            - size_t step_count_
             + override addEntry(BaseWaveStatus& in)
             + override run()
             + step()
@@ -76,7 +84,36 @@ package front {
             + registerCalculater(ICalculationBase* item)
             + run()
         }
+        Calculator -- ICalculation
 
+        class Tasker {
+            - size_t step_count_
+        }
+        Tasker *-- ICalculationTask
+
+        class Environment {
+            - vector<Tasker> tasker_
+            - vector<IGetSignal*> signals_
+        }
+        Environment *-- Tasker
+        Environment *-- IGetSignal
+
+        class Workspace {
+            - vector<Environment> envs_
+            - vector<IModule> modules_
+        }
+        Workspace *-- Environment
+        Workspace *-- IModule
+
+        class Session {
+            - Calculator calculator_
+            - vector<Environment> envs_
+        }
+        Session *-- Environment
+        Session *-- Calculator
+    }
+
+    package data {
         class SignalData {
             - double I
             - double Q
@@ -90,6 +127,15 @@ package front {
         }
         SignalDataBuffer -- SignalData
     }
+
+    package conf {
+        class Config {}
+    }
+
+    package io {}
+    package log {}
+    package draw {}
+    package arg {}
 }
 
 @enduml
