@@ -40,12 +40,12 @@ void BaseWaveCalculation::clear()
     outputs_.clear();
 }
 
-void BaseWaveMultiCalculationTask::addEntry(BaseWaveStatus& input_value)
+void BaseWaveCalculationTask::addEntry(BaseWaveStatus& input_value)
 {
     inputs_.push_back(&input_value);
 }
 
-void BaseWaveMultiCalculationTask::calculate()
+void BaseWaveCalculationTask::calculate()
 {
     for (BaseWaveStatus* input : inputs_)
     {
@@ -55,10 +55,10 @@ void BaseWaveMultiCalculationTask::calculate()
 
 void BaseWaveMultiCalculation::run()
 {
-    for (BaseWaveMultiCalculationTask task : tasks_) task.calculate();
+    for (BaseWaveCalculationTask task : tasks_) task.calculate();
 }
 
-size_t BaseWaveMultiCalculation::addMultiTask(const BaseWaveMultiCalculationTask task)
+size_t BaseWaveMultiCalculation::addMultiTask(const BaseWaveCalculationTask task)
 {
     tasks_.push_back(task);
     return tasks_.size() - 1;

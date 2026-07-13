@@ -19,23 +19,19 @@ public:
     virtual void run();
 };
 
-template<class Out, class In, size_t InputCount>
+template<class TaskType>
 class ICalculation : public ICalculationBase
 {
 public:
     ~ICalculation() override = default;
-    virtual size_t addTask(const array<In, InputCount>& inputs) = 0;
-    virtual Out getResult(size_t index) = 0;
-    virtual vector<Out>& getResults() = 0;
+    virtual void addTask(TaskType task) = 0;
     virtual void clear() = 0;
 };
 
-template<class Out, class TaskType>
-class IMultiCalculation : public ICalculationBase
+template<class In>
+struct ICalculationTask
 {
-public:
-    ~IMultiCalculation() override = default;
-    virtual size_t addMultiTask(TaskType task) = 0;
-    virtual vector<Out>& getMultiResult(size_t index) = 0;
-    virtual void clear() = 0;
+    virtual ~ICalculationTask() = default;
+    virtual void addEntry(In& in) = 0;
+    virtual void run() = 0;
 };

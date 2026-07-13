@@ -43,13 +43,6 @@ void BaseWaveCalculation::clear()
     outputs_.clear();
 }
 
-BaseWaveStatus::BaseWaveStatus
-(const double phase, const double omega)
-    : omega_(omega)
-{
-    values_.pushBack(SignalData(phase));
-}
-
 BaseWave::BaseWave(const double frequency, const double amplitude, const double phase)
     : frequency_(frequency)
     , amplitude_(amplitude)

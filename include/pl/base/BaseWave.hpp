@@ -16,11 +16,10 @@ using namespace std;
 
 struct BaseWaveStatus
 {
-    SignalDataBuffer values_{};
+    vector<SignalData> values_{};
     const SignalData omega_;
     BaseWaveStatus(double phase, double omega);
-    inline void iteration();
-    void calibrate();
+    static void update(vector<BaseWaveStatus> source, vector<SignalDataBuffer> values);
 };
 
 class BaseWave : public IGetSignal, public IModule

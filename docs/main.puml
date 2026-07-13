@@ -47,10 +47,9 @@ package back {
         BaseWave <|.. IGetSignal
 
         class BaseWaveStatus {
-            - SignalDataBuffer values_
+            - vector<SignalData> values_
             - SignalData omega_
             + static update(vector<Self*> source, vector<SignalDataBuffer> data)
-            + getLocation() -> size_t
             + iteration()
             + calibrate()
         }
