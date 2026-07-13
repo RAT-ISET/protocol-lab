@@ -75,6 +75,22 @@ package back {
         BaseWaveCalculationTask ..|> ICalculationTask 
         BaseWaveCalculation *-- BaseWaveCalculationTask
         BaseWaveCalculationTask -- BaseWaveStatus
+
+        class DigitalNoise {
+            - mt19937 rng_
+            - uint32_t seed_
+            + getSeed() -> uint32_t
+            + step() -> uint32_t
+        }
+
+        class AnalogNoise {
+            - mt19937 rng_
+            - uint32_t seed_
+            - SignalData status_
+            - normal_distribution<double> dist_
+            + getSeed() -> uint32_t
+            + step() -> SignalData
+        }
     }
 
     package core {
