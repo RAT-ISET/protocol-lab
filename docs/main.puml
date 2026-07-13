@@ -132,8 +132,12 @@ package back {
         class Config {}
     }
 
-    package io {}
-    package log {}
+    package io {
+        class LogFile
+    }
+    package log {
+        class Logger
+    }
     package out {}
     package arg {}
 }
