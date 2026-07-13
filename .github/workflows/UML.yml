@@ -13,10 +13,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Generate SVG
-        uses: plantuml/plantuml-action@v1
+      - name: Install Java
+        uses: actions/setup-java@v5
         with:
-          args: "-tsvg docs/*.puml"
+          java-version: '21'
+          distribution: temurin
+
+      - name: Download Plant UML
+        run: wget -q https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar
+
+      - name: Generate SVG
+        run: java -jar plantuml.jar -tsvg docs/*.puml
 
       - name: Commit SVG
         run: |
