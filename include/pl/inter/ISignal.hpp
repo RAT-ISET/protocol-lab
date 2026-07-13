@@ -14,5 +14,5 @@ class IGetSignal
 {
 public:
     virtual ~IGetSignal() = default;
-    virtual SignalData getValue(double time) = 0;
+    virtual SignalData& getValue(size_t time) = 0;
 };

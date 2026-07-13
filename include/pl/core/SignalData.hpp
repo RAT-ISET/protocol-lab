@@ -19,7 +19,6 @@ struct SignalData
 
     explicit SignalData(double value);
     explicit SignalData(double i_input, double q_input);
-    inline SignalData operator*(const SignalData& value) const;
 };
 
 struct SignalDataBuffer
@@ -29,8 +28,6 @@ struct SignalDataBuffer
 
     inline void replace(size_t index, const SignalData& data);
     inline void pushBack(const SignalData& value);
-    [[nodiscard]] inline vector<SignalData> multiData(const SignalDataBuffer& value) const;
-    inline SignalDataBuffer operator*(const SignalDataBuffer& value) const;
     inline void operator*=(const SignalDataBuffer& value);
 
     SignalDataBuffer() = default;

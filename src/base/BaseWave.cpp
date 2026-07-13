@@ -14,41 +14,33 @@
 #include <numbers>
 #include <vector>
 
-void BaseWaveCalculation::run()
+BaseWaveStatus::BaseWaveStatus(const SignalData& phase, const SignalData& omega)
+    : omega_(omega)
 {
-    outputs_ = SignalDataBuffer(inputs_[0]) * SignalDataBuffer(inputs_[1]);
+    values_.push_back(phase);
 }
 
-size_t BaseWaveCalculation::addTask(const array<SignalData, 2>& inputs)
+void BaseWaveStatus::update(vector<BaseWaveStatus*>& source, const SignalDataBuffer& values)
 {
-    inputs_[0].push_back(inputs[0]);
-    inputs_[1].push_back(inputs[1]);
-    return inputs_[0].size() - 1;
+    for (size_t i = 0; i < source.size(); i++)
+        source[i].values_.push_back
+            (SignalData(values.Is[i], values.Qs[i]));
 }
 
-SignalData BaseWaveCalculation::getResult(const size_t index)
+void BaseWave::init()
 {
-    return outputs_[index];
-}
-
-vector<SignalData>& BaseWaveCalculation::getResults()
-{
-    return outputs_;
-}
-
-void BaseWaveCalculation::clear()
-{
-    inputs_[0].clear();
-    inputs_[1].clear();
-    outputs_.clear();
+    // TODO(base): Initialize the BaseWave Module.
 }
 
 BaseWave::BaseWave(const double frequency, const double amplitude, const double phase)
     : frequency_(frequency)
     , amplitude_(amplitude)
-    , status_(BaseWaveStatus(phase, 2 * numbers::pi * frequency)) {}
+    , status_(BaseWaveStatus(
+        SignalData(phase),
+        SignalData(2 * numbers::pi * frequency)
+    )){}
 
-void BaseWave::init()
+SignalData& BaseWave::getValue(const size_t time)
 {
-    CALCULATOR.registerCalculation(&base_wave_calculation);
+    return status_.values_[time];
 }

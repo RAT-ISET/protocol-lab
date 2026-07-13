@@ -11,65 +11,37 @@
 #include <vector>
 #include <bits/ios_base.h>
 
+void BaseWaveCalculationTask::addEntry(BaseWaveStatus& in)
+{
+    source_.push_back(&in);
+    data_[0].pushBack(in.values_.back());
+    data_[1].pushBack(in.omega_);
+}
+
+void BaseWaveCalculationTask::run()
+{
+    for (size_t i = 0; i < step_count_; i++)
+        step();
+}
+
+void BaseWaveCalculationTask::step()
+{
+    data_[0] *= data_[1];
+    BaseWaveStatus::update(source_, data_[0]);
+}
+
 void BaseWaveCalculation::run()
 {
-    outputs_ = SignalDataBuffer(inputs_[0]) * SignalDataBuffer(inputs_[1]);
+    for (BaseWaveCalculationTask& task : tasks_)
+        task.run();
 }
 
-size_t BaseWaveCalculation::addTask(const array<SignalData, 2>& inputs)
+void BaseWaveCalculation::addTask(const BaseWaveCalculationTask task)
 {
-    inputs_[0].push_back(inputs[0]);
-    inputs_[1].push_back(inputs[1]);
-    return inputs_[0].size() - 1;
-}
-
-SignalData BaseWaveCalculation::getResult(const size_t index)
-{
-    return outputs_[index];
-}
-
-vector<SignalData>& BaseWaveCalculation::getResults()
-{
-    return outputs_;
+    tasks_.push_back(task);
 }
 
 void BaseWaveCalculation::clear()
-{
-    inputs_[0].clear();
-    inputs_[1].clear();
-    outputs_.clear();
-}
-
-void BaseWaveCalculationTask::addEntry(BaseWaveStatus& input_value)
-{
-    inputs_.push_back(&input_value);
-}
-
-void BaseWaveCalculationTask::calculate()
-{
-    for (BaseWaveStatus* input : inputs_)
-    {
-        input->calculate();
-    }
-}
-
-void BaseWaveMultiCalculation::run()
-{
-    for (BaseWaveCalculationTask task : tasks_) task.calculate();
-}
-
-size_t BaseWaveMultiCalculation::addMultiTask(const BaseWaveCalculationTask task)
-{
-    tasks_.push_back(task);
-    return tasks_.size() - 1;
-}
-
-vector<SignalData>& BaseWaveMultiCalculation::getMultiResult(size_t index)
-{
-    return *tasks_[index].outputs_;
-}
-
-void BaseWaveMultiCalculation::clear()
 {
     tasks_.clear();
 }

@@ -22,16 +22,16 @@ struct BaseWaveCalculationTask : ICalculationTask<BaseWaveStatus>
     vector<BaseWaveStatus*> source_;
     array<SignalDataBuffer, 2> data_;
     size_t step_count_;
+
     explicit BaseWaveCalculationTask(const size_t step_count) : step_count_(step_count) {}
     void addEntry(BaseWaveStatus& in) override;
     void run() override;
-    void step();
+    inline void step();
 };
 
 class BaseWaveCalculation : public ICalculation<BaseWaveCalculationTask>
 {
-    array<vector<SignalData>, 2> inputs_;
-    vector<SignalData> outputs_;
+    vector<BaseWaveCalculationTask> tasks_;
 public:
     void run() override;
     void addTask(BaseWaveCalculationTask task) override;

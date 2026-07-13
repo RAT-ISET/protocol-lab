@@ -18,8 +18,9 @@ struct BaseWaveStatus
 {
     vector<SignalData> values_{};
     const SignalData omega_;
-    BaseWaveStatus(double phase, double omega);
-    static void update(vector<BaseWaveStatus> source, vector<SignalDataBuffer> values);
+
+    BaseWaveStatus(const SignalData& phase, const SignalData& omega);
+    inline static void update(vector<BaseWaveStatus*>& source, const SignalDataBuffer& values);
 };
 
 class BaseWave : public IGetSignal, public IModule
@@ -30,5 +31,5 @@ class BaseWave : public IGetSignal, public IModule
 public:
     void init() override;
     BaseWave(double frequency, double amplitude, double phase);
-    SignalData getValue(double time) override;
+    SignalData& getValue(size_t time) override;
 };

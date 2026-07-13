@@ -13,7 +13,7 @@ package back {
         }
 
         interface IGetSignal {
-            + getValue(double time) -> SignalData&
+            + getValue(size_t time) -> SignalData&
         }
         IModule *-- IGetSignal
 
@@ -49,7 +49,7 @@ package back {
         class BaseWaveStatus {
             - vector<SignalData> values_
             - SignalData omega_
-            + static update(vector<Self*> source, vector<SignalDataBuffer> data)
+            + static update(vector<Self*> source, SignalDataBuffer& data)
             + iteration()
             + calibrate()
         }
