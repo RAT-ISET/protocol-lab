@@ -1,0 +1,27 @@
+name: Build UML
+
+on:
+  push:
+    paths:
+      - docs/*.puml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Generate SVG
+        uses: plantuml/plantuml-action@v1
+        with:
+          args: "-tsvg docs/*.puml"
+
+      - name: Commit SVG
+        run: |
+          git config --global user.name "Ecliptic ISET ( Bot )"
+          git config --global user.email "ecliptic@ratiset.org"
+          git add docs/*.svg
+          git commit -m "docs(uml): Build the SVG"
+          git push
