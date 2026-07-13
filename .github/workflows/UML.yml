@@ -22,6 +22,9 @@ jobs:
           java-version: '21'
           distribution: temurin
 
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
       - name: Download Plant UML
         run: wget -q https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar
 
