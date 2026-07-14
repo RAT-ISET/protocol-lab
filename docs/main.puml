@@ -102,30 +102,32 @@ package back {
         Calculator -- ICalculation
 
         class Tasker {
-            - size_t step_count_
+            - size_t tick_
+            + createTask() -> ICalculationTask
         }
         Tasker *-- ICalculationTask
 
+        class Workspace {
+            - vector<IGetSignal> signals_
+        }
+
         class Environment {
+            - vector<Workspace> workspace_
+            - usize_t tick_
+            - Calculator calculator_
             - vector<Tasker> tasker_
-            - vector<IGetSignal*> signals_
+            - vector<IModule> modules_
+            + CreateTasker(usize_t tick) -> Tasker
         }
         Environment *-- Tasker
         Environment *-- IGetSignal
-
-        class Workspace {
-            - vector<Environment> envs_
-            - vector<IModule> modules_
-        }
-        Workspace *-- Environment
-        Workspace *-- IModule
+        Environment *-- Workspace
+        Environment *-- Calculator
 
         class Session {
-            - Calculator calculator_
             - vector<Environment> envs_
         }
         Session *-- Environment
-        Session *-- Calculator
     }
 
     package data {
