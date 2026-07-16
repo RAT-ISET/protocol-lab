@@ -9,8 +9,6 @@
 #include <pl/base/BaseWave.hpp>
 #include <pl/base/BaseWaveCalculation.hpp>
 #include <pl/core/SignalData.hpp>
-#include <pl/inter/ICalculation.hpp>
-#include <pl/core/Calculator.hpp>
 #include <numbers>
 #include <vector>
 
@@ -20,10 +18,10 @@ BaseWaveStatus::BaseWaveStatus(const SignalData& phase, const SignalData& omega)
     values_.push_back(phase);
 }
 
-void BaseWaveStatus::update(vector<BaseWaveStatus*>& source, const SignalDataBuffer& values)
+void BaseWaveStatus::update(const vector<BaseWaveStatus*>& source, const SignalDataBuffer& values)
 {
     for (size_t i = 0; i < source.size(); i++)
-        source[i].values_.push_back
+        source[i]->values_.push_back
             (SignalData(values.Is[i], values.Qs[i]));
 }
 

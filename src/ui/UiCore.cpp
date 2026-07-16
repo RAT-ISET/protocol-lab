@@ -6,24 +6,29 @@
 // Path /src/ui/UiCore.cpp
 // Ui core for project.
 
+#include <cstdio>
 #include <pl/ui/UiCore.hpp>
-#include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-int runGui()
+int UiEntry::init()
 {
+    printf("1");
     if (!glfwInit()) return -1;
-
-    GLFWwindow* window = glfwCreateWindow(640, 480, "ISET Protocol Lab", nullptr, nullptr);
-
-    if (!window)
+    window_ = glfwCreateWindow(640, 480, "ISET Protocol Lab", nullptr, nullptr);
+    if (!window_)
     {
         glfwTerminate();
         return -1;
     }
-    glfwMakeContextCurrent(window);
+    return 0;
+}
+
+
+int UiEntry::runGui() const
+{
+    glfwMakeContextCurrent(window_);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -32,7 +37,7 @@ int runGui()
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     float scale_x, scale_y;
-    glfwGetWindowContentScale(window, &scale_x, &scale_y);
+    glfwGetWindowContentScale(window_, &scale_x, &scale_y);
     const float scale = scale_x * 1.5f;
     io.FontGlobalScale = scale;
     ImGuiStyle& style = ImGui::GetStyle();
@@ -50,10 +55,10 @@ int runGui()
     style.Colors[ImGuiCol_HeaderActive] =
         ImVec4(0.55f,0.55f,0.55f,1);
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplGlfw_InitForOpenGL(window_, true);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window_))
     {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT);
@@ -99,10 +104,10 @@ int runGui()
             glfwMakeContextCurrent(backup_current_context);
         }
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(window_);
     }
 
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(window_);
 
     glfwTerminate();
 

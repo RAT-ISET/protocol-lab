@@ -128,6 +128,7 @@ package back {
             - vector<Environment> envs_
         }
         Session *-- Environment
+        Session *-- ui
     }
 
     package data {

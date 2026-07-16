@@ -7,8 +7,11 @@
 // Main of ProtocolLab.
 
 #include <pl/ui/UiCore.hpp>
+#include <pl/core/Session.hpp>
 
 int main(const int argc, char* argv[])
 {
-    return runGui();
+    auto ui = UiEntry();
+    auto session = Session(&ui);
+    session.run();
 }

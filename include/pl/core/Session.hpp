@@ -3,18 +3,19 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl//ui/UiCore.hpp
-// Header file of the ui core for project.
+// Path /include/pl/core/Session.hpp
+// Header file of the software session.
 
 #pragma once
 
-#include <GLFW/glfw3.h>
+#include <pl/ui/UiCore.hpp>
 
-class UiEntry
+class Session
 {
-    GLFWwindow* window_ = nullptr;
+    UiEntry* ui_;
+    bool have_ui_;
 public:
-    int init();
-    [[nodiscard]] int runGui() const;
+    explicit Session(UiEntry* ui);
+    Session();
+    int run();
 };
-

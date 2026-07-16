@@ -20,7 +20,7 @@ struct BaseWaveStatus
     const SignalData omega_;
 
     BaseWaveStatus(const SignalData& phase, const SignalData& omega);
-    inline static void update(vector<BaseWaveStatus*>& source, const SignalDataBuffer& values);
+    inline static void update(const vector<BaseWaveStatus*>& source, const SignalDataBuffer& values);
 };
 
 class BaseWave : public IGetSignal, public IModule

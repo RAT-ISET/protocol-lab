@@ -7,7 +7,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Release")
 endif ()
 
 target_include_directories(ProtocolLab PRIVATE ${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(ProtocolLab PRIVATE ProtocolLabDeps ProtocolLabUi)
+target_link_libraries(ProtocolLab PRIVATE ProtocolLabDeps ProtocolLabUi ProtocolLabCore)
 
 include(GNUInstallDirs)
 
@@ -17,3 +17,4 @@ install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION share/licenses/${PROJECT_N
 
 add_subdirectory(core)
 add_subdirectory(ui)
+add_subdirectory(base)
