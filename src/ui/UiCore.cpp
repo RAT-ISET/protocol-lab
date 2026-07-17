@@ -8,15 +8,15 @@
 
 #include <cstdio>
 #include <pl/ui/UiCore.hpp>
+#include <pl/ui/Fonts.hpp>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
 int UiEntry::init()
 {
-    printf("1");
     if (!glfwInit()) return -1;
-    window_ = glfwCreateWindow(640, 480, "ISET Protocol Lab", nullptr, nullptr);
+    window_ = glfwCreateWindow(1920, 1080, "ISET Protocol Lab", nullptr, nullptr);
     if (!window_)
     {
         glfwTerminate();
@@ -24,7 +24,6 @@ int UiEntry::init()
     }
     return 0;
 }
-
 
 int UiEntry::runGui() const
 {
@@ -42,6 +41,11 @@ int UiEntry::runGui() const
     io.FontGlobalScale = scale;
     ImGuiStyle& style = ImGui::GetStyle();
     style.ScaleAllSizes(scale);
+
+    Font::UI = io.Fonts->AddFontFromFileTTF(UI_FONT_PATH.data(), 12.0f);
+    Font::Title = io.Fonts->AddFontFromFileTTF(TITLE_FONT_PATH.data(), 14.0f);
+    Font::Mono = io.Fonts->AddFontFromFileTTF(MONO_FONT_PATH.data(), 12.0f);
+    io.FontDefault = Font::UI;
 
     style.Colors[ImGuiCol_DockingPreview] =
         ImVec4(0.5f,0.5f,0.5f,0.7f);
@@ -67,6 +71,7 @@ int UiEntry::runGui() const
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
+        ImGui::PushFont(Font::Title);
         if (ImGui::BeginMainMenuBar())
         {
             if (ImGui::BeginMenu("File"))
@@ -82,12 +87,17 @@ int UiEntry::runGui() const
 
         ImGui::DockSpaceOverViewport();
         ImGui::Begin("Project");
+        ImGui::PopFont();
         ImGui::Text("ISET Protocol Lab");
         ImGui::End();
+        ImGui::PushFont(Font::Title);
         ImGui::Begin("Viewport");
+        ImGui::PopFont();
         ImGui::Text("ISET Protocol Lab");
         ImGui::End();
+        ImGui::PushFont(Font::Title);
         ImGui::Begin("Properties");
+        ImGui::PopFont();
         ImGui::Text("ISET Protocol Lab");
         ImGui::End();
 

@@ -3,7 +3,7 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl//ui/UiCore.hpp
+// Path /include/pl/ui/UiCore.hpp
 // Header file of the ui core for project.
 
 #pragma once
