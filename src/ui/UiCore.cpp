@@ -47,17 +47,37 @@ int UiEntry::runGui() const
     Font::Mono = io.Fonts->AddFontFromFileTTF(MONO_FONT_PATH.data(), 12.0f);
     io.FontDefault = Font::UI;
 
+    style.TabBarBorderSize = 0.0f;
+    style.TabRounding = 0.0f;
+    style.WindowRounding = 0.0f;
+    style.DockingSeparatorSize = 1.0f;
+
+    style.Colors[ImGuiCol_MenuBarBg] =
+        ImVec4(0.15f,0.15f,0.15f,1);
     style.Colors[ImGuiCol_DockingPreview] =
-        ImVec4(0.5f,0.5f,0.5f,0.7f);
-
-    style.Colors[ImGuiCol_Header] =
-        ImVec4(0.35f,0.35f,0.35f,1);
-
-    style.Colors[ImGuiCol_HeaderHovered] =
-        ImVec4(0.45f,0.45f,0.45f,1);
-
-    style.Colors[ImGuiCol_HeaderActive] =
-        ImVec4(0.55f,0.55f,0.55f,1);
+        ImVec4(0.5f,0.5f,0.5f,0.2f);
+    style.Colors[ImGuiCol_WindowBg] =
+        ImVec4(0.2f,0.2f,0.2f,1);
+    style.Colors[ImGuiCol_Tab] =
+        ImVec4(0,0,0,0);
+    style.Colors[ImGuiCol_TabHovered] =
+        ImVec4(0.1f,0.1f,0.1f,0.2f);
+    style.Colors[ImGuiCol_TabActive] =
+        ImVec4(0.1f,0.55f,0.52f,1);
+    style.Colors[ImGuiCol_TabSelected] =
+        ImVec4(1,1,1,0.2f);
+    style.Colors[ImGuiCol_TabSelectedOverline] =
+        ImVec4(0.1f,0.55f,0.52f,1);
+    style.Colors[ImGuiCol_TitleBg] =
+        ImVec4(0.3f,0.3f,0.3f,1);
+    style.Colors[ImGuiCol_TitleBgActive] =
+        ImVec4(0.1f,0.55f,0.52f,1);
+    style.Colors[ImGuiCol_TabDimmed] =
+        ImVec4(0.3f,0.3f,0.3f,1);
+    style.Colors[ImGuiCol_TabDimmedSelected] =
+        ImVec4(0.2f,0.2f,0.2f,0.2f);
+    style.Colors[ImGuiCol_TabDimmedSelectedOverline] =
+        ImVec4(0.2f,0.2f,0.2f,0.2f);
 
     ImGui_ImplGlfw_InitForOpenGL(window_, true);
     ImGui_ImplOpenGL3_Init("#version 330");
