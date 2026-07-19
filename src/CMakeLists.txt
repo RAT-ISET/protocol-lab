@@ -18,3 +18,4 @@ install(FILES ${CMAKE_SOURCE_DIR}/LICENSE DESTINATION share/licenses/${PROJECT_N
 add_subdirectory(core)
 add_subdirectory(ui)
 add_subdirectory(base)
+add_subdirectory(conf)
