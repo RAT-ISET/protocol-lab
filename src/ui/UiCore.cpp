@@ -28,7 +28,7 @@ int UiEntry::init()
     return 0;
 }
 
-int UiEntry::runGui() const
+int UiEntry::runGui(vector<Workspace>& data) const
 {
     glfwMakeContextCurrent(window_);
 
@@ -38,7 +38,65 @@ int UiEntry::runGui() const
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
+    setStyle(io);
+
     io.FontGlobalScale = scale_;
+
+    ImGui_ImplGlfw_InitForOpenGL(window_, true);
+    ImGui_ImplOpenGL3_Init("#version 330");
+
+    while (!glfwWindowShouldClose(window_))
+    {
+        glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+
+        ImGui::NewFrame();
+        renderMenu();
+
+        ImGui::DockSpaceOverViewport();
+        ImGui::Begin("Project");
+        ImGui::PopFont();
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+        ImGui::PushFont(Font::Title);
+        ImGui::Begin("Viewport");
+        ImGui::PopFont();
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+        ImGui::PushFont(Font::Title);
+        ImGui::Begin("Properties");
+        ImGui::PopFont();
+        ImGui::Text("ISET Protocol Lab");
+        ImGui::End();
+
+        ImGui::Render();
+
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        {
+            GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+
+            glfwMakeContextCurrent(backup_current_context);
+        }
+
+        glfwSwapBuffers(window_);
+    }
+
+    glfwDestroyWindow(window_);
+
+    glfwTerminate();
+
+    return 0;
+}
+
+void UiEntry::setStyle(ImGuiIO& io) const
+{
     ImGuiStyle& style = ImGui::GetStyle();
     style.ScaleAllSizes(scale_);
 
@@ -78,75 +136,33 @@ int UiEntry::runGui() const
         ImVec4(0.2f,0.2f,0.2f,0.2f);
     style.Colors[ImGuiCol_TabDimmedSelectedOverline] =
         ImVec4(0.2f,0.2f,0.2f,0.2f);
+}
 
-    ImGui_ImplGlfw_InitForOpenGL(window_, true);
-    ImGui_ImplOpenGL3_Init("#version 330");
-
-    while (!glfwWindowShouldClose(window_))
+void UiEntry::renderMenu()
+{
+    ImGui::PushFont(Font::Title);
+    if (ImGui::BeginMainMenuBar())
     {
-        glfwPollEvents();
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-
-        ImGui::NewFrame();
-        ImGui::PushFont(Font::Title);
-        if (ImGui::BeginMainMenuBar())
+        if (ImGui::BeginMenu("File"))
         {
-            if (ImGui::BeginMenu("File"))
-            {
-                ImGui::MenuItem("New");
-                ImGui::MenuItem("Open");
-                ImGui::MenuItem("Save");
-                ImGui::MenuItem("Close");
-                ImGui::EndMenu();
-            }
-            if (ImGui::BeginMenu("Edit"))
-            {
-                ImGui::MenuItem("Undo");
-                ImGui::MenuItem("Redo");
-                ImGui::MenuItem("Find");
-                ImGui::EndMenu();
-            }
-            ImGui::EndMainMenuBar();
+            ImGui::MenuItem("New");
+            ImGui::MenuItem("Open");
+            ImGui::MenuItem("Save");
+            ImGui::MenuItem("Close");
+            ImGui::EndMenu();
         }
-
-        ImGui::DockSpaceOverViewport();
-        ImGui::Begin("Project");
-        ImGui::PopFont();
-        ImGui::Text("ISET Protocol Lab");
-        ImGui::End();
-        ImGui::PushFont(Font::Title);
-        ImGui::Begin("Viewport");
-        ImGui::PopFont();
-        ImGui::Text("ISET Protocol Lab");
-        ImGui::End();
-        ImGui::PushFont(Font::Title);
-        ImGui::Begin("Properties");
-        ImGui::PopFont();
-        ImGui::Text("ISET Protocol Lab");
-        ImGui::End();
-
-        ImGui::Render();
-
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+        if (ImGui::BeginMenu("Edit"))
         {
-            GLFWwindow* backup_current_context = glfwGetCurrentContext();
-            ImGui::UpdatePlatformWindows();
-            ImGui::RenderPlatformWindowsDefault();
-
-            glfwMakeContextCurrent(backup_current_context);
+            ImGui::MenuItem("Undo");
+            ImGui::MenuItem("Redo");
+            ImGui::MenuItem("Find");
+            ImGui::EndMenu();
         }
-
-        glfwSwapBuffers(window_);
+        ImGui::EndMainMenuBar();
     }
+}
 
-    glfwDestroyWindow(window_);
-
-    glfwTerminate();
-
-    return 0;
+void UiEntry::renderWorkspace(vector<Workspace>& workspaces)
+{
+    return;
 }
