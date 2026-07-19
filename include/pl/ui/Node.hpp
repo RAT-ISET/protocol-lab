@@ -15,8 +15,11 @@ using namespace std;
 
 enum class NodeType
 {
+    Workspace,
+    Environment,
     Folder,
-    File,
+    Signal,
+    Working,
 };
 
 ImGuiTreeNodeFlags getNodeStyle(const NodeType& node_type);

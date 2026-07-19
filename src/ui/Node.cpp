@@ -13,10 +13,16 @@ ImGuiTreeNodeFlags getNodeStyle(const NodeType& node_type)
 {
     switch (node_type)
     {
-        case NodeType::Folder:
-            return ImGuiTreeNodeFlags_OpenOnArrow;
-        case NodeType::File:
-            return ImGuiTreeNodeFlags_OpenOnArrow;
+    case NodeType::Workspace:
+        return ImGuiTreeNodeFlags_Bullet;
+    case NodeType::Environment:
+        return ImGuiTreeNodeFlags_Bullet;
+    case NodeType::Folder:
+        return ImGuiTreeNodeFlags_OpenOnArrow;
+    case NodeType::Signal:
+        return ImGuiTreeNodeFlags_OpenOnArrow;
+    case NodeType::Working:
+        return ImGuiTreeNodeFlags_Framed;
     }
     return ImGuiTreeNodeFlags_None;
 }
