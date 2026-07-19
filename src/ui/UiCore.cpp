@@ -14,6 +14,8 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include "pl/core/Environment.hpp"
+
 int UiEntry::init()
 {
     if (!glfwInit()) return -1;
@@ -29,7 +31,7 @@ int UiEntry::init()
     return 0;
 }
 
-int UiEntry::runGui(vector<Workspace>& data) const
+int UiEntry::runGui(vector<Environment>& data) const
 {
     glfwMakeContextCurrent(window_);
 
@@ -60,7 +62,7 @@ int UiEntry::runGui(vector<Workspace>& data) const
         ImGui::DockSpaceOverViewport();
         ImGui::Begin("Project");
         ImGui::PopFont();
-        renderWorkspace(data);
+        renderEnvironment(data);
         ImGui::End();
         ImGui::PushFont(Font::Title);
         ImGui::Begin("Viewport");

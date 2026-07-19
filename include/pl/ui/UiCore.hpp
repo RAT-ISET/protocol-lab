@@ -11,7 +11,7 @@
 #include <vector>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
-#include <pl/core/Workspace.hpp>
+#include <pl/core/Environment.hpp>
 
 using namespace std;
 
@@ -22,6 +22,6 @@ class UiEntry
     void setStyle(ImGuiIO& io) const;
 public:
     int init();
-    [[nodiscard]] int runGui(vector<Workspace>& data) const;
+    [[nodiscard]] int runGui(vector<Environment>& data) const;
 };
 

@@ -35,8 +35,18 @@ void renderMenu()
     }
 }
 
+void renderEnvironment(vector<Environment>& environments)
+{
+    if (ImGui::TreeNodeEx("Folder", getNodeStyle(NodeType::Folder)))
+    {
+        ImGui::TreePop();
+    }
+}
+
 void renderWorkspace(vector<Workspace>& workspaces)
 {
     if (ImGui::TreeNodeEx("Folder", getNodeStyle(NodeType::Folder)))
+    {
         ImGui::TreePop();
+    }
 }

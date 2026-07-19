@@ -9,9 +9,11 @@
 #pragma once
 
 #include <vector>
+#include <pl/core/Environment.hpp>
 #include <pl/core/Workspace.hpp>
 
 using namespace std;
 
 void renderMenu();
-void renderWorkspace(vector<Workspace>& workspace);
+void renderEnvironment(vector<Environment>& environments);
+void renderWorkspace(vector<Workspace>& workspaces);

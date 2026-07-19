@@ -3,15 +3,7 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/core/Workspace.hpp
-// Header file of the software workspace.
+// Path /src/core/Environment.cpp
+// Software environment.
 
-#pragma once
-
-#include <vector>
-#include <pl/inter/ISignal.hpp>
-
-class Workspace
-{
-    vector<IGetSignal> signals_;
-};
+#include <pl/core/Environment.hpp>

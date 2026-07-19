@@ -9,12 +9,12 @@
 #pragma once
 
 #include <pl/ui/UiCore.hpp>
-#include <pl/core/Workspace.hpp>
+#include <pl/core/Environment.hpp>
 
 class Session
 {
     UiEntry* ui_;
-    vector<Workspace> workspaces_;
+    vector<Environment> environments_;
     bool have_ui_;
 public:
     explicit Session(UiEntry* ui);
