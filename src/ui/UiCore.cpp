@@ -17,6 +17,9 @@ int UiEntry::init()
 {
     if (!glfwInit()) return -1;
     window_ = glfwCreateWindow(1920, 1080, "ISET Protocol Lab", nullptr, nullptr);
+    float scale_x, scale_y;
+    glfwGetWindowContentScale(window_, &scale_x, &scale_y);
+    scale_ = scale_x * 1.5f;
     if (!window_)
     {
         glfwTerminate();
@@ -35,12 +38,9 @@ int UiEntry::runGui() const
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-    float scale_x, scale_y;
-    glfwGetWindowContentScale(window_, &scale_x, &scale_y);
-    const float scale = scale_x * 1.5f;
-    io.FontGlobalScale = scale;
+    io.FontGlobalScale = scale_;
     ImGuiStyle& style = ImGui::GetStyle();
-    style.ScaleAllSizes(scale);
+    style.ScaleAllSizes(scale_);
 
     Font::UI = io.Fonts->AddFontFromFileTTF(UI_FONT_PATH.data(), 12.0f);
     Font::Title = io.Fonts->AddFontFromFileTTF(TITLE_FONT_PATH.data(), 14.0f);
