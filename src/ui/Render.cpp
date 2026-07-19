@@ -9,6 +9,7 @@
 #include <pl/ui/Render.hpp>
 #include <pl/ui/UiCore.hpp>
 #include <pl/ui/Fonts.hpp>
+#include <pl/ui/Node.hpp>
 
 void renderMenu()
 {
@@ -36,5 +37,6 @@ void renderMenu()
 
 void renderWorkspace(vector<Workspace>& workspaces)
 {
-    return;
+    if (ImGui::TreeNodeEx("Folder", getNodeStyle(NodeType::Folder)))
+        ImGui::TreePop();
 }

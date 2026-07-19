@@ -60,7 +60,7 @@ int UiEntry::runGui(vector<Workspace>& data) const
         ImGui::DockSpaceOverViewport();
         ImGui::Begin("Project");
         ImGui::PopFont();
-        ImGui::Text("ISET Protocol Lab");
+        renderWorkspace(data);
         ImGui::End();
         ImGui::PushFont(Font::Title);
         ImGui::Begin("Viewport");
