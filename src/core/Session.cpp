@@ -21,7 +21,7 @@ int Session::run()
     if (have_ui_)
     {
         if (const int out = ui_->init(); out != 0) return out;
-        return ui_->runGui();
+        return ui_->runGui(workspaces_);
     }
     // TODO(server): run only server
     return 0;
