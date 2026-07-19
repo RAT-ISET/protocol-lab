@@ -102,6 +102,13 @@ int UiEntry::runGui() const
                 ImGui::MenuItem("Close");
                 ImGui::EndMenu();
             }
+            if (ImGui::BeginMenu("Edit"))
+            {
+                ImGui::MenuItem("Undo");
+                ImGui::MenuItem("Redo");
+                ImGui::MenuItem("Find");
+                ImGui::EndMenu();
+            }
             ImGui::EndMainMenuBar();
         }
 
