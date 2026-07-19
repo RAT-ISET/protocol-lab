@@ -1,4 +1,4 @@
-add_library(ProtocolLabUi UiCore.cpp)
+add_library(ProtocolLabUi UiCore.cpp Render.cpp)
 target_include_directories(ProtocolLabUi PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(ProtocolLabUi ProtocolLabDeps ProtocolLabCore OpenGL::GL)
 

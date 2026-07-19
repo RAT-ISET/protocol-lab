@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <pl/ui/UiCore.hpp>
 #include <pl/ui/Fonts.hpp>
+#include <pl/ui/Render.hpp>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
@@ -136,33 +137,4 @@ void UiEntry::setStyle(ImGuiIO& io) const
         ImVec4(0.2f,0.2f,0.2f,0.2f);
     style.Colors[ImGuiCol_TabDimmedSelectedOverline] =
         ImVec4(0.2f,0.2f,0.2f,0.2f);
-}
-
-void UiEntry::renderMenu()
-{
-    ImGui::PushFont(Font::Title);
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("File"))
-        {
-            ImGui::MenuItem("New");
-            ImGui::MenuItem("Open");
-            ImGui::MenuItem("Save");
-            ImGui::MenuItem("Close");
-            ImGui::EndMenu();
-        }
-        if (ImGui::BeginMenu("Edit"))
-        {
-            ImGui::MenuItem("Undo");
-            ImGui::MenuItem("Redo");
-            ImGui::MenuItem("Find");
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
-}
-
-void UiEntry::renderWorkspace(vector<Workspace>& workspaces)
-{
-    return;
 }
