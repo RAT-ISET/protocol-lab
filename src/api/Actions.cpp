@@ -3,11 +3,18 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/conf/Config.hpp
-// Header file of the configuration reader and writer.
+// Path /src/api/Actions.cpp
+// User actions runner.
 
-#pragma once
+#include <pl/api/Actions.hpp>
 
-#include <toml++/toml.hpp>
-
-
+void handleActions(const ActionType& action)
+{
+    switch (action)
+    {
+    case ActionType::ProjectNew:
+        {
+            d;
+        }
+    }
+}

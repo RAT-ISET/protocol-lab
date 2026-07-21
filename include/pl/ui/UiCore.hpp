@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <pl/core/Environment.hpp>
+#include <pl/ui/inter/IRender.hpp>
 
 using namespace std;
 
@@ -19,9 +20,10 @@ class UiEntry
 {
     GLFWwindow* window_ = nullptr;
     float scale_ = 0;
+    vector<IRender*> renders_;
     void setStyle(ImGuiIO& io) const;
 public:
     int init();
-    [[nodiscard]] int runGui(vector<Environment>& data) const;
+    [[nodiscard]] int runGui(vector<Environment>& data);
 };
 

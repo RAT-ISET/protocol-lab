@@ -10,15 +10,19 @@
 #include <pl/ui/UiCore.hpp>
 #include <pl/ui/Fonts.hpp>
 #include <pl/ui/Node.hpp>
+#include <pl/ui/dialogs/NewProject.hpp>
 
-void renderMenu()
+void renderMenu(vector<IRender*>& renders)
 {
     ImGui::PushFont(Font::Title);
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("File"))
         {
-            ImGui::MenuItem("New");
+            if (ImGui::MenuItem("New"))
+            {
+                renders.push_back(new NewProjectDialog());
+            }
             ImGui::MenuItem("Open");
             ImGui::MenuItem("Save");
             ImGui::MenuItem("Close");

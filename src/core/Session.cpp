@@ -7,6 +7,7 @@
 // Software session.
 
 #include <pl/core/Session.hpp>
+#include <nfd.hpp>
 
 Session::Session(UiEntry* ui)
     : ui_(ui)
@@ -21,6 +22,7 @@ int Session::run()
     if (have_ui_)
     {
         if (const int out = ui_->init(); out != 0) return out;
+        NFD::Guard guard;
         return ui_->runGui(environments_);
     }
     // TODO(server): run only server

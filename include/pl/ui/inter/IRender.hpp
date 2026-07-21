@@ -3,11 +3,15 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/conf/Config.hpp
-// Header file of the configuration reader and writer.
+// Path /include/pl/ui/inter/IRender.hpp
+// Interface of the render item.
 
 #pragma once
 
-#include <toml++/toml.hpp>
-
-
+class IRender
+{
+public:
+    virtual ~IRender() = default;
+    virtual void render() = 0;
+    virtual bool canClose() = 0;
+};

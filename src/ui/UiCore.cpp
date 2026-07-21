@@ -31,7 +31,7 @@ int UiEntry::init()
     return 0;
 }
 
-int UiEntry::runGui(vector<Environment>& data) const
+int UiEntry::runGui(vector<Environment>& data)
 {
     glfwMakeContextCurrent(window_);
 
@@ -57,7 +57,18 @@ int UiEntry::runGui(vector<Environment>& data) const
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
-        renderMenu();
+        renderMenu(renders_);
+
+        for (size_t i = 0; i < renders_.size(); i++)
+        {
+            if (renders_[i]->canClose())
+            {
+                delete renders_[i];
+                renders_[i] = renders_.back();
+                renders_.pop_back();
+            } else
+                renders_[i]->render();
+        }
 
         ImGui::DockSpaceOverViewport();
         ImGui::Begin("Project");

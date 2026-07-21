@@ -11,9 +11,10 @@
 #include <vector>
 #include <pl/core/Environment.hpp>
 #include <pl/core/Workspace.hpp>
+#include <pl/ui/inter/IRender.hpp>
 
 using namespace std;
 
-void renderMenu();
+void renderMenu(vector<IRender*>& renders);
 void renderEnvironment(vector<Environment>& environments);
 void renderWorkspace(vector<Workspace>& workspaces);
