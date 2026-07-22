@@ -7,8 +7,9 @@
 // Dialogs for create project.
 
 #include <pl/ui/dialogs/NewProject.hpp>
+#include <pl/api/Actions.hpp>
 
-NewProjectDialog::NewProjectDialog()= default;
+NewProjectDialog::NewProjectDialog(optional<string>& session_path) : session_path_(session_path) {}
 
 void NewProjectDialog::render()
 {
@@ -43,4 +44,9 @@ bool NewProjectDialog::canClose()
 string NewProjectDialog::getPath()
 {
     return std::move(project_full_path_.value());
+}
+
+void NewProjectDialog::close(vector<IRender*>& renders)
+{
+    actions::NewProjectOver(session_path_, renders, project_full_path_.value());
 }

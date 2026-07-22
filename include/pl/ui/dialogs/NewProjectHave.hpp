@@ -3,33 +3,27 @@
 // Licensed under the MIT.
 // https://github.com/RAT-ISET/protocol-lab
 // ==============================================================
-// Path /include/pl/ui/dialogs/NewProject.hpp
-// Header file of the project create dialog.
+// Path /include/pl/ui/dialogs/NewProjectHave.hpp
+// Header file of the project create dialog when have old project.
 
 #pragma once
 
-#include <optional>
-#include <vector>
 #include <nfd.hpp>
-#include <imgui.h>
-#include <misc/cpp/imgui_stdlib.h>
+#include <vector>
 #include <pl/ui/inter/IRender.hpp>
 
 using namespace NFD;
 using namespace std;
 
-class NewProjectDialog : public IRender
+class NewProjectHaveDialog : public IRender
 {
     bool can_close_ = false;
-    string project_name_;
-    string project_path_;
-    optional<string>& session_path_;
-    optional<string> project_full_path_;
+    bool status_{};
+    string new_path_;
 public:
-    NewProjectDialog() = delete;
-    explicit NewProjectDialog(optional<string>& session_path);
+    explicit NewProjectHaveDialog(string new_path);
     void render() override;
     bool canClose() override;
+    [[nodiscard]] bool getStatus() const;
     void close(vector<IRender*>& renders) override;
-    string getPath();
 };

@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <optional>
+#include <string>
 #include <pl/ui/UiCore.hpp>
 #include <pl/core/Environment.hpp>
 
@@ -15,9 +17,11 @@ class Session
 {
     UiEntry* ui_;
     vector<Environment> environments_;
+    optional<string> path_;
     bool have_ui_;
 public:
     explicit Session(UiEntry* ui);
     Session();
     int run();
+    optional<string>& getPath();
 };

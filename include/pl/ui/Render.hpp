@@ -11,10 +11,11 @@
 #include <vector>
 #include <pl/core/Environment.hpp>
 #include <pl/core/Workspace.hpp>
+#include <pl/core/Session.hpp>
 #include <pl/ui/inter/IRender.hpp>
 
 using namespace std;
 
-void renderMenu(vector<IRender*>& renders);
+void renderMenu(vector<IRender*>& renders, optional<string>& session_path);
 void renderEnvironment(vector<Environment>& environments);
 void renderWorkspace(vector<Workspace>& workspaces);

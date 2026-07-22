@@ -10,11 +10,11 @@
 #include <pl/ui/UiCore.hpp>
 #include <pl/ui/Fonts.hpp>
 #include <pl/ui/Render.hpp>
+#include <pl/core/Environment.hpp>
+#include <pl/api/Actions.hpp>
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
-
-#include "pl/core/Environment.hpp"
 
 int UiEntry::init()
 {
@@ -31,7 +31,7 @@ int UiEntry::init()
     return 0;
 }
 
-int UiEntry::runGui(vector<Environment>& data)
+int UiEntry::runGui(optional<string>& session_path, vector<Environment>& data)
 {
     glfwMakeContextCurrent(window_);
 
@@ -57,12 +57,13 @@ int UiEntry::runGui(vector<Environment>& data)
         ImGui_ImplGlfw_NewFrame();
 
         ImGui::NewFrame();
-        renderMenu(renders_);
+        renderMenu(renders_, session_path);
 
         for (size_t i = 0; i < renders_.size(); i++)
         {
             if (renders_[i]->canClose())
             {
+                renders_[i]->close(renders_);
                 delete renders_[i];
                 renders_[i] = renders_.back();
                 renders_.pop_back();

@@ -7,12 +7,12 @@
 // Ui render method.
 
 #include <pl/ui/Render.hpp>
-#include <pl/ui/UiCore.hpp>
 #include <pl/ui/Fonts.hpp>
 #include <pl/ui/Node.hpp>
 #include <pl/ui/dialogs/NewProject.hpp>
+#include <pl/api/Actions.hpp>
 
-void renderMenu(vector<IRender*>& renders)
+void renderMenu(vector<IRender*>& renders, optional<string>& session_path)
 {
     ImGui::PushFont(Font::Title);
     if (ImGui::BeginMainMenuBar())
@@ -20,9 +20,7 @@ void renderMenu(vector<IRender*>& renders)
         if (ImGui::BeginMenu("File"))
         {
             if (ImGui::MenuItem("New"))
-            {
-                renders.push_back(new NewProjectDialog());
-            }
+                actions::NewProject(session_path, renders);
             ImGui::MenuItem("Open");
             ImGui::MenuItem("Save");
             ImGui::MenuItem("Close");

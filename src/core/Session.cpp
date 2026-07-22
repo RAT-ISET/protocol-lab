@@ -23,8 +23,13 @@ int Session::run()
     {
         if (const int out = ui_->init(); out != 0) return out;
         NFD::Guard guard;
-        return ui_->runGui(environments_);
+        return ui_->runGui(path_, environments_);
     }
     // TODO(server): run only server
     return 0;
+}
+
+optional<string>& Session::getPath()
+{
+    return path_;
 }

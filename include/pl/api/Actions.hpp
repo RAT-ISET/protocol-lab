@@ -8,9 +8,25 @@
 
 #pragma once
 
-enum class ActionType
-{
-    ProjectNew,
-};
+#include <utility>
+#include <vector>
+#include <pl/ui/dialogs/NewProject.hpp>
+#include <pl/ui/dialogs/NewProjectHave.hpp>
+#include <pl/core/Session.hpp>
 
-void handleActions(const ActionType& action);
+namespace actions
+{
+    inline void NewProject(optional<string>& session_path, vector<IRender*>& renders)
+    {
+        renders.push_back(new NewProjectDialog(session_path));
+    }
+    inline void NewProjectOver(optional<string>& session_path, vector<IRender*>& renders, const string& path)
+    {
+        if (session_path.has_value())
+        {
+            renders.push_back(new NewProjectHaveDialog(path));
+        }
+        else
+            session_path = path;
+    }
+}

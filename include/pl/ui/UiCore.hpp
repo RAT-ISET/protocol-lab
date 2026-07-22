@@ -9,6 +9,8 @@
 #pragma once
 
 #include <vector>
+#include <optional>
+#include <string>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <pl/core/Environment.hpp>
@@ -24,6 +26,5 @@ class UiEntry
     void setStyle(ImGuiIO& io) const;
 public:
     int init();
-    [[nodiscard]] int runGui(vector<Environment>& data);
+    [[nodiscard]] int runGui(optional<string>& session_path, vector<Environment>& data);
 };
-
